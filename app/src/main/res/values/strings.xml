@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">datastore-demo</string>
+    <string name="app_name">Shared Preferences</string>
+
+    <string name="username">Username</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+
+    <string name="welcome_user">Welcome %s!</string>
+    <string name="welcome">Welcome!</string>
+    <string name="logout">Logout</string>
 </resources>
