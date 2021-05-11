@@ -32,7 +32,7 @@ class DataStoreRepository(private val dataStore: DataStore<Preferences>) {
     val readFromDataStore : Flow<UserPreferences> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.d(DataStoreRepository::class.java.simpleName, exception.message.toString())
+                Log.d("DataStoreRepository", exception.message.toString())
                 emit(emptyPreferences())
             } else {
                 throw exception
