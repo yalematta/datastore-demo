@@ -2,6 +2,7 @@
     <string name="app_name">Preferences DataStore</string>
 
     <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="remember_me">Remember me</string>
     <string name="login">Login</string>
 
