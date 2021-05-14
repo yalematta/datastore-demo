@@ -7,9 +7,9 @@ But SharedPreferences' API has a series of downsides and luckily the _**Jetpack 
 
 So if you're currently using _**SharedPreferences**_, consider migrating to _**DataStore**_ instead. 
 
-This simple demo app is part of a [Blog posts]() series that helps you do the migration.
+This simple demo app is part of a [Blog posts](https://yalematta.dev/blog/preferences-datastore.html) series that helps you do the migration.
 
-- ## [Preferences DataStore]()
+- ## [Preferences DataStore](https://yalematta.dev/blog/preferences-datastore.html)
 
 <img src="/screenshots/LoginActivity.png" width="300"/> <img src="/screenshots/WelcomeActivity.png" width="300"/>
 
