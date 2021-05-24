@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shared Preferences</string>
+    <string name="app_name">Proto DataStore</string>
 
     <string name="username">Username</string>
     <string name="remember_me">Remember me</string>

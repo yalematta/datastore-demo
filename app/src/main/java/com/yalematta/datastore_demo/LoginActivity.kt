@@ -1,19 +1,45 @@
 package com.yalematta.datastore_demo
 
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.migrations.SharedPreferencesMigration
+import androidx.datastore.migrations.SharedPreferencesView
+import androidx.lifecycle.ViewModelProvider
+import com.yalematta.datastore_demo.data.UserPreferencesSerializer
 import com.yalematta.datastore_demo.databinding.ActivityLoginBinding
+import com.yalematta.datastore_demo.repository.UserPreferencesRepository
+import com.yalematta.datastore_demo.viewmodel.LoginViewModel
+import com.yalematta.datastore_demo.viewmodel.LoginViewModelFactory
 
 const val USER_PREFERENCES_NAME = "user_preferences"
-const val REMEMBER = "remember"
-const val USERNAME = "username"
+private const val DATA_STORE_FILE_NAME = "user_prefs.pb"
+
+val Context.userPreferencesStore: DataStore<UserPreferences> by dataStore(
+    fileName = DATA_STORE_FILE_NAME,
+    serializer = UserPreferencesSerializer,
+    produceMigrations = { context ->
+        listOf(sharedPrefsMigration(context))
+    }
+)
+
+fun sharedPrefsMigration(context: Context) = SharedPreferencesMigration(
+    context, USER_PREFERENCES_NAME) { sharedPrefs: SharedPreferencesView, currentData: UserPreferences ->
+    // Define the mapping from SharedPreferences to UserPreferences
+    currentData
+}
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var viewModel: LoginViewModel
+
+    private var rememberMe = false
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,26 +47,31 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val sharedPreferences: SharedPreferences = getSharedPreferences(USER_PREFERENCES_NAME, MODE_PRIVATE)
-        val rememberMe = sharedPreferences.getBoolean(REMEMBER, false)
+        viewModel = ViewModelProvider(
+            this,
+            LoginViewModelFactory(UserPreferencesRepository(userPreferencesStore))
+        ).get(LoginViewModel::class.java)
 
-        if (rememberMe) {
+        viewModel.userPreferencesFlow.observe(this, { userPreferences ->
+            rememberMe = userPreferences.remember
+            username = userPreferences.username
+            if (rememberMe) {
+                startActivity(Intent(this, WelcomeActivity::class.java))
+            }
+        })
+
+        binding.login.setOnClickListener {
+            if (binding.remember.isChecked) {
+                val name = binding.username.text.toString()
+                viewModel.saveUserPreferences(name, true)
+            }
             startActivity(Intent(this, WelcomeActivity::class.java))
         }
 
-        binding.login.setOnClickListener {
-
-            if (binding.remember.isChecked) {
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putString(USERNAME, binding.username.text.toString())
-                editor.putBoolean(REMEMBER, true)
-                editor.apply()
-            } else {
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.clear().apply()
+        binding.remember.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+            if (!compoundButton.isChecked) {
+                viewModel.clearUserPreferences()
             }
-
-            startActivity(Intent(this, WelcomeActivity::class.java))
         }
 
     }
