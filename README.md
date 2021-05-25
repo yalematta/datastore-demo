@@ -15,3 +15,4 @@ This simple demo app is part of a [Blog posts](https://yalematta.dev/blog/prefer
 
 - ## Proto DataStore (Coming soon)
 
+<img src="/screenshots/ProtoLoginActivity.png" width="300"/> <img src="/screenshots/ProtoWelcomeActivity.png" width="300"/>
