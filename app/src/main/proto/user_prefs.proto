@@ -4,6 +4,7 @@ option java_package= "com.yalematta.datastore_demo";
 option java_multiple_files = true;
 
 message UserPreferences {
-  string  username = 1;
-  bool remember = 2;
+  bool remember = 1;
+  string username = 2;
+  int32 luckyNumber = 3;
 }

@@ -13,10 +13,11 @@ class LoginViewModel(private val userPreferencesRepository: UserPreferencesRepos
 
     val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow.asLiveData()
 
-    fun saveUserPreferences(username: String, remember: Boolean) {
+    fun saveUserPreferences(remember: Boolean, username: String, luckyNumber: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            userPreferencesRepository.updateUsername(username)
             userPreferencesRepository.updateRemember(remember)
+            userPreferencesRepository.updateUsername(username)
+            userPreferencesRepository.updateLuckyNumber(luckyNumber)
         }
     }
 

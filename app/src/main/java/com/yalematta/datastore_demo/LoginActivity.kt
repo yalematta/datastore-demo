@@ -39,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
 
     private var rememberMe = false
+    private var luckyNumber = 0
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.userPreferencesFlow.observe(this, { userPreferences ->
             rememberMe = userPreferences.remember
             username = userPreferences.username
+            luckyNumber = userPreferences.luckyNumber
             if (rememberMe) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
             }
@@ -63,7 +65,11 @@ class LoginActivity : AppCompatActivity() {
         binding.login.setOnClickListener {
             if (binding.remember.isChecked) {
                 val name = binding.username.text.toString()
-                viewModel.saveUserPreferences(name, true)
+                var number = luckyNumber
+                if (binding.luckyNumber.text.toString().isNotEmpty()) {
+                    number = binding.luckyNumber.text.toString().toInt()
+                }
+                viewModel.saveUserPreferences(true, name, number)
             }
             startActivity(Intent(this, WelcomeActivity::class.java))
         }

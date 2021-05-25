@@ -3,6 +3,7 @@ package com.yalematta.datastore_demo
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.yalematta.datastore_demo.databinding.ActivityWelcomeBinding
@@ -28,8 +29,17 @@ class WelcomeActivity : AppCompatActivity() {
 
         viewModel.userPreferencesFlow.observe(this, { userPreferences ->
             val username = userPreferences.username
+            val luckyNumber = userPreferences.luckyNumber
             if (username.isNotEmpty()) {
                 binding.welcome.text = String.format(getString(R.string.welcome_user), username)
+            }
+            if (luckyNumber != 0) {
+                binding.luckyNumber.text = luckyNumber.toString()
+                binding.luckyNumber.visibility = View.VISIBLE
+                binding.logo.visibility = View.GONE
+            } else {
+                binding.luckyNumber.visibility = View.GONE
+                binding.logo.visibility = View.VISIBLE
             }
         })
 

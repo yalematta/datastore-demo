@@ -35,6 +35,12 @@ class UserPreferencesRepository(private val userPreferencesStore: DataStore<User
         }
     }
 
+    suspend fun updateLuckyNumber(luckyNumber: Int) {
+        userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setLuckyNumber(luckyNumber).build()
+        }
+    }
+
     suspend fun clearDataStore() {
         userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().clear().build()
@@ -44,6 +50,12 @@ class UserPreferencesRepository(private val userPreferencesStore: DataStore<User
     suspend fun clearUsername() {
         userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().clearUsername().build()
+        }
+    }
+
+    suspend fun clearLuckyNumber() {
+        userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearLuckyNumber().build()
         }
     }
 }
