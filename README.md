@@ -15,3 +15,4 @@ This simple demo app is part of a [Blog posts]() series that helps you do the mi
 
 - ## Proto DataStore (Coming soon)
 
+<img src="/screenshots/ProtoLoginActivity.png" width="300"/> <img src="/screenshots/ProtoWelcomeActivity.png" width="300"/>
